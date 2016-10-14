@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.22.1
-Release  : 2
+Release  : 3
 URL      : https://download.gnome.org/sources/gdm/3.22/gdm-3.22.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.22/gdm-3.22.1.tar.xz
 Summary  : Client Library for communicating with GDM daemon
