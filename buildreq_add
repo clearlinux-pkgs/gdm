@@ -7,3 +7,4 @@ gobject-introspection-dev
 libXinerama-dev
 systemd-dev
 dconf-dev
+libXinerama-dev
