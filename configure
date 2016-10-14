@@ -1,0 +1,6 @@
+--enable-wayland-support
+--enable-ipv6
+--disable-schemas-compile
+--with-initial-vt=7
+--without-plymouth
+

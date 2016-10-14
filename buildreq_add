@@ -1,0 +1,9 @@
+# This file contains additional build requirements that did not get
+# picked up automatically. One name per line, no whitespace.
+Linux-PAM-dev
+itstool
+libxml2-dev
+gobject-introspection-dev
+libXinerama-dev
+systemd-dev
+dconf-dev
