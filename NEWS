@@ -1,19 +1,36 @@
-==============
-Version 3.22.3
-==============
+===============
+Version 3.24.0
+===============
+
+===============
+Version 3.23.92
+===============
+- Be more robust against misconfigured autologin systems
+
+=================
+Version 3.23.91.1
+=================
 - Fix regression in wayland fallback code
 - Fix for headless sessions
 - Change around how PostLogin/PostSession scripts are run
 - Fix XDMCP in network environments with poor network resolution
 - Don't try to user switch with XDMCP
+- Translation updates
+
+===============
+Version 3.23.91
+===============
+- Small fix to environment variable importing
+- Add configure knob to turn off user X server
 
 ==============
-Version 3.22.2
+Version 3.23.4
 ==============
-- Fix book keeping of display name in some cases
-- wayland fix
-- xdmcp logout fix
-- add knob to go back to running Xorg as root
+- Make X11DisplayName property accurate
+- Fix bug that forced wayland on second logins even if user didn't pick it
+- kill clients from display on logout (multiseat and xdmcp only)
+- send hangup to process group when session exits
+- allow specifying pam_gdm install location to configure
 
 ==============
 Version 3.22.1
