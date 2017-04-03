@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.0
-Release  : 6
+Release  : 7
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Summary  : Client Library for communicating with GDM daemon
@@ -108,12 +108,14 @@ locales components for the gdm package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1490636257
+export SOURCE_DATE_EPOCH=1491221199
 %configure --disable-static --enable-wayland-support \
 --enable-ipv6 \
 --disable-schemas-compile \
 --with-initial-vt=7 \
---without-plymouth
+--without-plymouth \
+--with-pam-prefix=/usr/share \
+--with-default-pam-config=lfs
 make V=1  %{?_smp_mflags}
 
 %check
@@ -124,7 +126,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1490636257
+export SOURCE_DATE_EPOCH=1491221199
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
@@ -207,6 +209,12 @@ rm -rf %{buildroot}
 /usr/share/icons/hicolor/16x16/apps/gdm-xnest.png
 /usr/share/icons/hicolor/32x32/apps/gdm-setup.png
 /usr/share/icons/hicolor/32x32/apps/gdm-xnest.png
+/usr/share/pam.d/gdm-autologin
+/usr/share/pam.d/gdm-fingerprint
+/usr/share/pam.d/gdm-launch-environment
+/usr/share/pam.d/gdm-password
+/usr/share/pam.d/gdm-pin
+/usr/share/pam.d/gdm-smartcard
 /usr/share/pixmaps/gdm-foot-logo.png
 /usr/share/pixmaps/gdm-setup.png
 /usr/share/pixmaps/gdm-xnest.png
