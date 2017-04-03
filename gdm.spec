@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.0
-Release  : 9
+Release  : 10
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source1  : gdm.tmpfiles
@@ -41,6 +41,7 @@ BuildRequires : pkgconfig(libsystemd)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xau)
 BuildRequires : systemd-dev
+Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 
 %description
 GDM - GNOME Display Manager
@@ -106,10 +107,11 @@ locales components for the gdm package.
 
 %prep
 %setup -q -n gdm-3.24.0
+%patch1 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491233743
+export SOURCE_DATE_EPOCH=1491235569
 %configure --disable-static --enable-wayland-support \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -128,7 +130,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491233743
+export SOURCE_DATE_EPOCH=1491235569
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
