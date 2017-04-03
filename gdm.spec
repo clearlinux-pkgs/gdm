@@ -4,9 +4,10 @@
 #
 Name     : gdm
 Version  : 3.24.0
-Release  : 8
+Release  : 9
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
+Source1  : gdm.tmpfiles
 Summary  : Client Library for communicating with GDM daemon
 Group    : Development/Tools
 License  : GPL-2.0
@@ -108,7 +109,7 @@ locales components for the gdm package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491224825
+export SOURCE_DATE_EPOCH=1491233743
 %configure --disable-static --enable-wayland-support \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -127,10 +128,12 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491224825
+export SOURCE_DATE_EPOCH=1491233743
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 
 %files
 %defattr(-,root,root,-)
@@ -149,6 +152,7 @@ rm -rf %{buildroot}
 %files config
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/gdm.service
+/usr/lib/tmpfiles.d/gdm.conf
 
 %files data
 %defattr(-,root,root,-)
