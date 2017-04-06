@@ -6,3 +6,4 @@
 --with-pam-prefix=/usr/share
 --with-default-pam-config=lfs
 --with-dbus-sys=/usr/share/dbus-1/system.d
+--with-custom-conf=/etc/gdm/custom.conf

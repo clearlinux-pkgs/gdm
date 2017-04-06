@@ -1,0 +1,44 @@
+From 9b1360c78b062bec685f9e37d3c1f23598a64a27 Mon Sep 17 00:00:00 2001
+From: Ikey Doherty <michael.i.doherty@intel.com>
+Date: Thu, 6 Apr 2017 16:59:05 +0100
+Subject: [PATCH 2/2] Use stateless gdmconfdir for integration into Clear Linux
+
+Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
+---
+ configure.ac     | 6 +-----
+ data/Makefile.am | 2 +-
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 060816d..2792e01 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -163,11 +163,7 @@ AC_ARG_WITH(sysconfsubdir,
+             sysconfsubdir=${withval}, sysconfsubdir=gdm)
+ AC_SUBST(sysconfsubdir)
+ 
+-if test x"${sysconfsubdir}" != xno -a x"${sysconfsubdir}" != x; then
+-    gdmconfdir='${sysconfdir}/${sysconfsubdir}'
+-else
+-    gdmconfdir='${sysconfdir}'
+-fi
++gdmconfdir="${datadir}/gdm"
+ AC_SUBST(gdmconfdir)
+ 
+ AC_ARG_WITH(dmconfdir,
+diff --git a/data/Makefile.am b/data/Makefile.am
+index 4dd255c..7b23983 100644
+--- a/data/Makefile.am
++++ b/data/Makefile.am
+@@ -239,7 +239,7 @@ install-data-hook: gdm.conf-custom $(Xsession_files) Init PostSession PreSession
+ 		chmod 755 $(DESTDIR)$(gdmconfdir); \
+ 	fi
+ 	if test '!' -f $(DESTDIR)$(GDM_CUSTOM_CONF); then \
+-		$(INSTALL_DATA) gdm.conf-custom $(DESTDIR)$(GDM_CUSTOM_CONF); \
++		$(INSTALL_DATA) -D gdm.conf-custom $(DESTDIR)$(GDM_CUSTOM_CONF); \
+ 		chmod 644 $(DESTDIR)$(GDM_CUSTOM_CONF); \
+ 	fi
+ 
+-- 
+2.12.2
+
