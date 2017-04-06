@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.0
-Release  : 10
+Release  : 11
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source1  : gdm.tmpfiles
@@ -13,8 +13,8 @@ Group    : Development/Tools
 License  : GPL-2.0
 Requires: gdm-bin
 Requires: gdm-config
-Requires: gdm-lib
 Requires: gdm-data
+Requires: gdm-lib
 Requires: gdm-locales
 BuildRequires : Linux-PAM-dev
 BuildRequires : dconf-dev
@@ -111,7 +111,7 @@ locales components for the gdm package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491235569
+export SOURCE_DATE_EPOCH=1491491320
 %configure --disable-static --enable-wayland-support \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -130,7 +130,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491235569
+export SOURCE_DATE_EPOCH=1491491320
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
@@ -158,6 +158,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 
 %files data
 %defattr(-,root,root,-)
+/usr/lib64/girepository-1.0/Gdm-1.0.typelib
 /usr/share/dbus-1/system.d/gdm.conf
 /usr/share/dconf/profile/gdm
 /usr/share/gdm/gdb-cmd
@@ -167,6 +168,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 /usr/share/gdm/greeter/applications/mimeapps.list
 /usr/share/gdm/greeter/autostart/orca-autostart.desktop
 /usr/share/gdm/locale.alias
+/usr/share/gir-1.0/*.gir
 /usr/share/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
 /usr/share/help/C/gdm/index.docbook
 /usr/share/help/C/gdm/legal.xml
@@ -236,10 +238,8 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 /usr/include/gdm/gdm-client.h
 /usr/include/gdm/gdm-sessions.h
 /usr/include/gdm/gdm-user-switching.h
-/usr/lib64/girepository-1.0/Gdm-1.0.typelib
 /usr/lib64/libgdm.so
 /usr/lib64/pkgconfig/gdm.pc
-/usr/share/gir-1.0/*.gir
 
 %files lib
 %defattr(-,root,root,-)
