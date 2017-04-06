@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.0
-Release  : 12
+Release  : 13
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source1  : gdm.tmpfiles
@@ -119,7 +119,7 @@ locales components for the gdm package.
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491494847
+export SOURCE_DATE_EPOCH=1491495096
 %reconfigure --disable-static --enable-wayland-support \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -128,7 +128,8 @@ export SOURCE_DATE_EPOCH=1491494847
 --with-pam-prefix=/usr/share \
 --with-default-pam-config=lfs \
 --with-dbus-sys=/usr/share/dbus-1/system.d \
---with-custom-conf=/etc/gdm/custom.conf
+--with-custom-conf=/etc/gdm/custom.conf \
+--enable-gdm-xsession
 make V=1  %{?_smp_mflags}
 
 %check
@@ -139,7 +140,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491494847
+export SOURCE_DATE_EPOCH=1491495096
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
@@ -174,6 +175,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 /usr/share/gdm/PostLogin/Default.sample
 /usr/share/gdm/PostSession/Default
 /usr/share/gdm/PreSession/Default
+/usr/share/gdm/Xsession
 /usr/share/gdm/gdb-cmd
 /usr/share/gdm/gdm.schemas
 /usr/share/gdm/greeter-dconf-defaults
