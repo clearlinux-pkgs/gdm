@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.0
-Release  : 11
+Release  : 12
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.0.tar.xz
 Source1  : gdm.tmpfiles
@@ -17,15 +17,21 @@ Requires: gdm-data
 Requires: gdm-lib
 Requires: gdm-locales
 BuildRequires : Linux-PAM-dev
+BuildRequires : automake
+BuildRequires : automake-dev
 BuildRequires : dconf-dev
 BuildRequires : gettext
+BuildRequires : gettext-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : intltool
 BuildRequires : itstool
 BuildRequires : libXinerama-dev
+BuildRequires : libtool
+BuildRequires : libtool-dev
 BuildRequires : libxml2-dev
-BuildRequires : libxml2-python
+BuildRequires : m4
 BuildRequires : perl(XML::Parser)
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(accountsservice)
 BuildRequires : pkgconfig(check)
 BuildRequires : pkgconfig(gio-2.0)
@@ -42,6 +48,7 @@ BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xau)
 BuildRequires : systemd-dev
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
+Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 
 %description
 GDM - GNOME Display Manager
@@ -108,18 +115,20 @@ locales components for the gdm package.
 %prep
 %setup -q -n gdm-3.24.0
 %patch1 -p1
+%patch2 -p1
 
 %build
 export LANG=C
-export SOURCE_DATE_EPOCH=1491491320
-%configure --disable-static --enable-wayland-support \
+export SOURCE_DATE_EPOCH=1491494847
+%reconfigure --disable-static --enable-wayland-support \
 --enable-ipv6 \
 --disable-schemas-compile \
 --with-initial-vt=7 \
 --without-plymouth \
 --with-pam-prefix=/usr/share \
 --with-default-pam-config=lfs \
---with-dbus-sys=/usr/share/dbus-1/system.d
+--with-dbus-sys=/usr/share/dbus-1/system.d \
+--with-custom-conf=/etc/gdm/custom.conf
 make V=1  %{?_smp_mflags}
 
 %check
@@ -130,7 +139,7 @@ export no_proxy=localhost
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491491320
+export SOURCE_DATE_EPOCH=1491494847
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
@@ -161,6 +170,10 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 /usr/lib64/girepository-1.0/Gdm-1.0.typelib
 /usr/share/dbus-1/system.d/gdm.conf
 /usr/share/dconf/profile/gdm
+/usr/share/gdm/Init/Default
+/usr/share/gdm/PostLogin/Default.sample
+/usr/share/gdm/PostSession/Default
+/usr/share/gdm/PreSession/Default
 /usr/share/gdm/gdb-cmd
 /usr/share/gdm/gdm.schemas
 /usr/share/gdm/greeter-dconf-defaults
@@ -170,52 +183,6 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 /usr/share/gdm/locale.alias
 /usr/share/gir-1.0/*.gir
 /usr/share/glib-2.0/schemas/org.gnome.login-screen.gschema.xml
-/usr/share/help/C/gdm/index.docbook
-/usr/share/help/C/gdm/legal.xml
-/usr/share/help/ca/gdm/index.docbook
-/usr/share/help/ca/gdm/legal.xml
-/usr/share/help/cs/gdm/index.docbook
-/usr/share/help/cs/gdm/legal.xml
-/usr/share/help/de/gdm/index.docbook
-/usr/share/help/de/gdm/legal.xml
-/usr/share/help/el/gdm/index.docbook
-/usr/share/help/el/gdm/legal.xml
-/usr/share/help/en_GB/gdm/index.docbook
-/usr/share/help/en_GB/gdm/legal.xml
-/usr/share/help/es/gdm/index.docbook
-/usr/share/help/es/gdm/legal.xml
-/usr/share/help/fr/gdm/index.docbook
-/usr/share/help/fr/gdm/legal.xml
-/usr/share/help/gl/gdm/index.docbook
-/usr/share/help/gl/gdm/legal.xml
-/usr/share/help/hu/gdm/index.docbook
-/usr/share/help/hu/gdm/legal.xml
-/usr/share/help/id/gdm/index.docbook
-/usr/share/help/id/gdm/legal.xml
-/usr/share/help/it/gdm/index.docbook
-/usr/share/help/it/gdm/legal.xml
-/usr/share/help/ko/gdm/index.docbook
-/usr/share/help/ko/gdm/legal.xml
-/usr/share/help/oc/gdm/index.docbook
-/usr/share/help/oc/gdm/legal.xml
-/usr/share/help/pt_BR/gdm/index.docbook
-/usr/share/help/pt_BR/gdm/legal.xml
-/usr/share/help/ro/gdm/index.docbook
-/usr/share/help/ro/gdm/legal.xml
-/usr/share/help/ru/gdm/index.docbook
-/usr/share/help/ru/gdm/legal.xml
-/usr/share/help/sl/gdm/index.docbook
-/usr/share/help/sl/gdm/legal.xml
-/usr/share/help/sv/gdm/index.docbook
-/usr/share/help/sv/gdm/legal.xml
-/usr/share/help/te/gdm/index.docbook
-/usr/share/help/te/gdm/legal.xml
-/usr/share/help/tr/gdm/index.docbook
-/usr/share/help/tr/gdm/legal.xml
-/usr/share/help/uk/gdm/index.docbook
-/usr/share/help/uk/gdm/legal.xml
-/usr/share/help/zh_CN/gdm/index.docbook
-/usr/share/help/zh_CN/gdm/legal.xml
 /usr/share/icons/hicolor/16x16/apps/gdm-xnest.png
 /usr/share/icons/hicolor/32x32/apps/gdm-setup.png
 /usr/share/icons/hicolor/32x32/apps/gdm-xnest.png
