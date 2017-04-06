@@ -1,31 +1,38 @@
-From 8c705a168c6ab3a0c3a3f14f95f430cf3f2a4d26 Mon Sep 17 00:00:00 2001
+From 9df91ce8a2e2cdaedce365d09cf75e279bb7137d Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
 Date: Mon, 3 Apr 2017 17:01:38 +0100
 Subject: [PATCH] data: Integrate with the Clear Linux PAM configuration
 
 Signed-off-by: Ikey Doherty <michael.i.doherty@intel.com>
 ---
- data/pam-lfs/gdm-autologin.pam          | 2 +-
+ data/pam-lfs/gdm-autologin.pam          | 6 +++---
  data/pam-lfs/gdm-fingerprint.pam        | 2 +-
  data/pam-lfs/gdm-launch-environment.pam | 2 +-
- data/pam-lfs/gdm-password.pam           | 2 +-
+ data/pam-lfs/gdm-password.pam           | 6 +++---
  data/pam-lfs/gdm-pin.pam                | 2 +-
  data/pam-lfs/gdm-smartcard.pam          | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ 6 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/data/pam-lfs/gdm-autologin.pam b/data/pam-lfs/gdm-autologin.pam
-index 953d47e..3247a7f 100644
+index 953d47e..afe690b 100644
 --- a/data/pam-lfs/gdm-autologin.pam
 +++ b/data/pam-lfs/gdm-autologin.pam
-@@ -8,7 +8,7 @@ auth     optional       pam_gdm.so
+@@ -8,12 +8,12 @@ auth     optional       pam_gdm.so
  auth     optional       pam_gnome_keyring.so
  auth     required       pam_permit.so
  
 -account  include        system-account
+-password include        system-password
 +account  include        common-account
- password include        system-password
++password include        common-password
  
  session  optional       pam_keyinit.so revoke
+ session  required       pam_limits.so
+-session  include        system-session
++session  include        common-session
+ session  optional       pam_gnome_keyring.so auto_start
+ 
+ # End /etc/pam.d/gdm-autologin
 diff --git a/data/pam-lfs/gdm-fingerprint.pam b/data/pam-lfs/gdm-fingerprint.pam
 index f004882..4fe3e4f 100644
 --- a/data/pam-lfs/gdm-fingerprint.pam
@@ -53,18 +60,24 @@ index 174c347..86f553c 100644
  password required       pam_deny.so
  
 diff --git a/data/pam-lfs/gdm-password.pam b/data/pam-lfs/gdm-password.pam
-index 9b52a17..01b9441 100644
+index 9b52a17..20f4b7a 100644
 --- a/data/pam-lfs/gdm-password.pam
 +++ b/data/pam-lfs/gdm-password.pam
-@@ -7,7 +7,7 @@ auth     required       pam_succeed_if.so uid >= 1000 quiet
+@@ -7,11 +7,11 @@ auth     required       pam_succeed_if.so uid >= 1000 quiet
  auth     include        system-auth
  auth     optional       pam_gnome_keyring.so
  
 -account  include        system-account
+-password include        system-password
 +account  include        common-account
- password include        system-password
++password include        common-password
  
  session  required       pam_limits.so
+-session  include        system-session
++session  include        common-session
+ session  optional       pam_gnome_keyring.so auto_start
+ 
+ # End /etc/pam.d/gdm-password
 diff --git a/data/pam-lfs/gdm-pin.pam b/data/pam-lfs/gdm-pin.pam
 index 4c955c9..7880f9d 100644
 --- a/data/pam-lfs/gdm-pin.pam
