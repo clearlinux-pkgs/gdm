@@ -1,4 +1,4 @@
---enable-wayland-support
+--enable-wayland-support=no
 --enable-ipv6
 --disable-schemas-compile
 --with-initial-vt=7

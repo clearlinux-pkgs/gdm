@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.1
-Release  : 14
+Release  : 15
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.1.tar.xz
 Source1  : gdm.tmpfiles
@@ -118,9 +118,12 @@ locales components for the gdm package.
 %patch2 -p1
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492047780
-%reconfigure --disable-static --enable-wayland-support \
+export SOURCE_DATE_EPOCH=1492618475
+%reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
 --with-initial-vt=7 \
@@ -136,11 +139,11 @@ make V=1  %{?_smp_mflags}
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1492047780
+export SOURCE_DATE_EPOCH=1492618475
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
