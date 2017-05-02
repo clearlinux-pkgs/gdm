@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.1
-Release  : 17
+Release  : 18
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.1.tar.xz
 Source1  : gdm.tmpfiles
