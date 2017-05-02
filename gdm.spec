@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.1
-Release  : 16
+Release  : 17
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.1.tar.xz
 Source1  : gdm.tmpfiles
@@ -46,6 +46,7 @@ BuildRequires : pkgconfig(libcanberra-gtk3)
 BuildRequires : pkgconfig(libsystemd)
 BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xau)
+BuildRequires : pkgconfig(xcb)
 BuildRequires : systemd-dev
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
@@ -56,6 +57,14 @@ GDM - GNOME Display Manager
 http://wiki.gnome.org/Projects/GDM/
 The GNOME Display Manager is a system service that is responsible for
 providing graphical log-ins and managing local and remote displays.
+
+%package autostart
+Summary: autostart components for the gdm package.
+Group: Default
+
+%description autostart
+autostart components for the gdm package.
+
 
 %package bin
 Summary: bin components for the gdm package.
@@ -124,7 +133,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1493745523
+export SOURCE_DATE_EPOCH=1493750586
 %reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -145,15 +154,23 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1493745523
+export SOURCE_DATE_EPOCH=1493750586
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
+## make_install_append content
+mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
+ln -s ../gdm.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm.service
+## make_install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files autostart
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/multi-user.target.wants/gdm.service
 
 %files bin
 %defattr(-,root,root,-)
@@ -168,6 +185,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 
 %files config
 %defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm.service
 /usr/lib/systemd/system/gdm.service
 /usr/lib/tmpfiles.d/gdm.conf
 
