@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.24.2
-Release  : 20
+Release  : 21
 URL      : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.2.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.24/gdm-3.24.2.tar.xz
 Source1  : gdm.tmpfiles
@@ -50,6 +50,7 @@ BuildRequires : systemd-dev
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
+Patch4: dont-start-service-without-graphics.patch
 
 %description
 GDM - GNOME Display Manager
@@ -126,13 +127,14 @@ locales components for the gdm package.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1494423553
+export SOURCE_DATE_EPOCH=1497383776
 %reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -153,7 +155,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1494423553
+export SOURCE_DATE_EPOCH=1497383776
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
