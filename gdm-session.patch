@@ -1,0 +1,97 @@
+From dd65d0c2a4d225bc96a63748b6120080e96d4e22 Mon Sep 17 00:00:00 2001
+From: Ray Strode <rstrode@redhat.com>
+Date: Wed, 20 Sep 2017 09:47:53 -0400
+Subject: [PATCH] gdm-sessions: force a session bus for non-seat0 session
+
+Eventually, our software should become "multi-seat aware",
+where it takes into account multiple seats at a time
+for the user (even if it's just putting up a dialog saying
+"user is busy" on all but one seat).
+
+We're not there yet. And user bus currently breaks XDMCP
+(which should really spawn session with its own separate user,
+ but again, we're not there yet).
+
+This commit changes GDM to start a session bus for all non-seat0
+displays, as a near-term workaround.
+
+https://bugzilla.gnome.org/show_bug.cgi?id=787943
+---
+ daemon/gdm-session.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/daemon/gdm-session.c b/daemon/gdm-session.c
+index eece5fb4..1f1f6eea 100644
+--- a/daemon/gdm-session.c
++++ b/daemon/gdm-session.c
+@@ -2764,61 +2764,66 @@ gdm_session_start_session (GdmSession *self,
+                         allow_remote_connections = TRUE;
+                 }
+ 
+                 if (run_launcher) {
+                         if (is_x11) {
+                                 program = g_strdup_printf (LIBEXECDIR "/gdm-x-session %s %s\"%s\"",
+                                                            run_xsession_script? "--run-script " : "",
+                                                            allow_remote_connections? "--allow-remote-connections " : "",
+                                                            command);
+                         } else {
+                                 program = g_strdup_printf (LIBEXECDIR "/gdm-wayland-session \"%s\"",
+                                                            command);
+                         }
+                 } else if (run_xsession_script) {
+                         program = g_strdup_printf (GDMCONFDIR "/Xsession \"%s\"", command);
+                 } else {
+                         program = g_strdup (command);
+                 }
+ 
+                 g_free (command);
+         } else {
+                 if (run_launcher) {
+                         if (is_x11) {
+                                 program = g_strdup_printf (LIBEXECDIR "/gdm-x-session \"%s\"",
+                                                            self->priv->selected_program);
+                         } else {
+                                 program = g_strdup_printf (LIBEXECDIR "/gdm-wayland-session \"%s\"",
+                                                            self->priv->selected_program);
+                         }
+                 } else {
+-                        program = g_strdup (self->priv->selected_program);
++                        if (g_strcmp0 (self->priv->display_seat_id, "seat0") != 0) {
++                                program = g_strdup_printf ("dbus-run-session -- %s",
++                                                           self->priv->selected_program);
++                        } else {
++                                program = g_strdup (self->priv->selected_program);
++                        }
+                 }
+         }
+ 
+         set_up_session_environment (self);
+         send_environment (self, conversation);
+ 
+         gdm_dbus_worker_call_start_program (conversation->worker_proxy,
+                                             program,
+                                             conversation->worker_cancellable,
+                                             (GAsyncReadyCallback) on_start_program_cb,
+                                             conversation);
+         g_free (program);
+ }
+ 
+ static void
+ stop_all_conversations (GdmSession *self)
+ {
+         stop_all_other_conversations (self, NULL, TRUE);
+ }
+ 
+ static void
+ do_reset (GdmSession *self)
+ {
+         stop_all_conversations (self);
+ 
+         g_list_free_full (self->priv->pending_worker_connections, g_object_unref);
+         self->priv->pending_worker_connections = NULL;
+ 
+         g_free (self->priv->selected_user);
+         self->priv->selected_user = NULL;
+-- 
+2.14.1
+
