@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.26.0
-Release  : 23
+Release  : 25
 URL      : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.0.tar.xz
 Source1  : gdm.tmpfiles
