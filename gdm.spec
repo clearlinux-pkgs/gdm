@@ -4,10 +4,11 @@
 #
 Name     : gdm
 Version  : 3.26.2.1
-Release  : 28
+Release  : 29
 URL      : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.2.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.2.1.tar.xz
-Source1  : gdm.tmpfiles
+Source1  : gdm-hw-accel.service
+Source2  : gdm.tmpfiles
 Summary  : Client Library for communicating with GDM daemon
 Group    : Development/Tools
 License  : GPL-2.0
@@ -51,7 +52,7 @@ BuildRequires : systemd-dev
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
-Patch4: dont-start-service-without-graphics.patch
+Patch4: 0004-conflict-with-gdm-hw-accel.service.patch
 
 %description
 GDM - GNOME Display Manager
@@ -134,7 +135,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1510076544
+export SOURCE_DATE_EPOCH=1511987254
 %reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -155,15 +156,17 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1510076544
+export SOURCE_DATE_EPOCH=1511987254
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
+mkdir -p %{buildroot}/usr/lib/systemd/system
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/gdm-hw-accel.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
-install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 ## make_install_append content
 mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
-ln -s ../gdm.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm.service
+ln -s ../gdm-hw-accel.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
 ## make_install_append end
 
 %files
@@ -171,7 +174,7 @@ ln -s ../gdm.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants
 
 %files autostart
 %defattr(-,root,root,-)
-/usr/lib/systemd/system/multi-user.target.wants/gdm.service
+/usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
 
 %files bin
 %defattr(-,root,root,-)
@@ -186,7 +189,8 @@ ln -s ../gdm.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm.service
+%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
+/usr/lib/systemd/system/gdm-hw-accel.service
 /usr/lib/systemd/system/gdm.service
 /usr/lib/tmpfiles.d/gdm.conf
 
