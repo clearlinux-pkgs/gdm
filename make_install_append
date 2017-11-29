@@ -1,2 +1,2 @@
 mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
-ln -s ../gdm.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm.service
+ln -s ../gdm-hw-accel.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
