@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.26.2.1
-Release  : 30
+Release  : 31
 URL      : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.2.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.2.1.tar.xz
 Source1  : gdm-hw-accel.service
@@ -135,8 +135,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1511987254
-%reconfigure --disable-static --enable-wayland-support=no \
+export SOURCE_DATE_EPOCH=1517934400
+%reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
 --with-initial-vt=7 \
@@ -146,7 +146,7 @@ export SOURCE_DATE_EPOCH=1511987254
 --with-dbus-sys=/usr/share/dbus-1/system.d \
 --with-custom-conf=/etc/gdm/custom.conf \
 --enable-gdm-xsession
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 %check
 export LANG=C
@@ -156,7 +156,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1511987254
+export SOURCE_DATE_EPOCH=1517934400
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
