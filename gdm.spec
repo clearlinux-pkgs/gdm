@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.26.2.1
-Release  : 33
+Release  : 34
 URL      : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.2.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.26/gdm-3.26.2.1.tar.xz
 Source1  : gdm-hw-accel.service
