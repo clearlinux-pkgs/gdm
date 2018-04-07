@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.28.0
-Release  : 36
+Release  : 37
 URL      : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.0.tar.xz
 Source1  : gdm-hw-accel.service
@@ -53,6 +53,7 @@ Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
 Patch4: 0004-conflict-with-gdm-hw-accel.service.patch
+Patch5: gdm-rules-fix.patch
 
 %description
 GDM - GNOME Display Manager
@@ -129,13 +130,14 @@ locales components for the gdm package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1522205318
+export SOURCE_DATE_EPOCH=1523114827
 %reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -156,7 +158,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1522205318
+export SOURCE_DATE_EPOCH=1523114827
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
