@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.28.0
-Release  : 37
+Release  : 38
 URL      : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.0.tar.xz
 Source1  : gdm-hw-accel.service
@@ -137,7 +137,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1523114827
+export SOURCE_DATE_EPOCH=1523133369
 %reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -158,7 +158,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1523114827
+export SOURCE_DATE_EPOCH=1523133369
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
@@ -192,10 +192,10 @@ ln -s ../gdm-hw-accel.service %{buildroot}/usr/lib/systemd/system/multi-user.tar
 %files config
 %defattr(-,root,root,-)
 %exclude /usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
+%exclude /usr/lib/udev/rules.d/61-gdm.rules
 /usr/lib/systemd/system/gdm-hw-accel.service
 /usr/lib/systemd/system/gdm.service
 /usr/lib/tmpfiles.d/gdm.conf
-/usr/lib/udev/rules.d/61-gdm.rules
 
 %files data
 %defattr(-,root,root,-)
