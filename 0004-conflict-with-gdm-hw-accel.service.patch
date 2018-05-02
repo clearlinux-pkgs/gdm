@@ -29,7 +29,7 @@ index 72201c1..71e696a 100644
 -# for any reason, make sure plymouth still stops
 -OnFailure=plymouth-quit.service
 +Conflicts=gdm-hw-accel.service
-+After=rc-local.service systemd-user-sessions.service
++After=rc-local.service systemd-user-sessions.service gdm-disable-a2dp-pulseaudio.service
  
  [Service]
  ExecStart=@sbindir@/gdm

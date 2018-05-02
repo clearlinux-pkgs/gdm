@@ -10,7 +10,7 @@ After=
 
 # Needs all the dependencies of the services it's replacing
 # pulled from getty@.service and
-After=rc-local.service systemd-user-sessions.service
+After=rc-local.service systemd-user-sessions.service gdm-disable-a2dp-pulseaudio.service
 
 # Don't start if there's no graphic card available
 ConditionPathExists=/dev/dri/card0

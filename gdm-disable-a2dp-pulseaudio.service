@@ -1,0 +1,12 @@
+[Unit]
+Description=disable a2dp from gdm pulseaudio
+After=syslog.target
+ConditionPathExists=!/var/lib/gdm/.config/pulse/default.pa
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/install -d -m 0755 -ogdm -ggdm /var/lib/gdm/.config/pulse
+ExecStart=/usr/libexec/gdm-disable-a2dp-pulseaudio.sh
+
+[Install]
+WantedBy=multi-user.target

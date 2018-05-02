@@ -1,0 +1,69 @@
+From c855fca30d316e3f07bb3797c05174ea423ad0f3 Mon Sep 17 00:00:00 2001
+From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
+Date: Wed, 2 May 2018 11:47:52 -0500
+Subject: [PATCH] pulseaudio to ignore A2DP
+
+By default gdm pulseaudio captures A2DP sink, which will
+avoid the user to properly use its Bluetooth headset due to
+gdm capturing the device instead of user-session.
+
+there's some workaround for Arch Linux*[1] and Debian[2] as
+well. We just do the archlinux way by default.
+
+we create a  `default.pa` in gdm's pulseaudio config dir
+( /var/lib/gdm/.config/pulse ) and unload the bluetooth
+pulseaudio modules from gdm.
+
+[1]-https://aur.archlinux.org/packages/pulseaudio-bluetooth-a2dp-gdm-fix/
+[2]-https://wiki.debian.org/BluetoothUser/a2dp#Refused_to_switch_profile_to_a2dp_sink:_Not_connected
+---
+ gdm-disable-a2dp-pulseaudio.sh | 37 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100755 gdm-disable-a2dp-pulseaudio.sh
+
+diff --git a/gdm-disable-a2dp-pulseaudio.sh b/gdm-disable-a2dp-pulseaudio.sh
+new file mode 100755
+index 0000000..1723de2
+--- /dev/null
++++ b/gdm-disable-a2dp-pulseaudio.sh
+@@ -0,0 +1,37 @@
++#!/bin/bash
++
++# setup to gdm $HOME
++GDM_HOME=/var/lib/gdm
++# setup to gdm $UID
++GDM_USER=gdm
++
++PULSECONFIGDIR=${GDM_HOME}/.config/pulse
++
++if [ ! -d ${PULSECONFIGDIR} ] ; then
++    >&2 echo "unable to disable pulseaudio for gdm"
++    >&2 echo "error: ${PULSECONFIGDIR}: no such file or directory"
++    exit 1
++else
++    cat <<EOF > ${PULSECONFIGDIR}/default.pa
++#!/usr/bin/pulseaudio -nF
++# taken from https://wiki.archlinux.org/index.php/Talk:Bluetooth_headset#GDMs_pulseaudio_instance_captures_bluetooth_headset
++#
++
++# load system wide configuration
++.include /usr/share/pulseaudio/default.pa
++
++### unload driver modules for Bluetooth hardware
++.nofail
++
++.ifexists module-bluetooth-policy.so
++unload-module module-bluetooth-policy
++.endif
++
++.ifexists module-bluetooth-discover.so
++unload-module module-bluetooth-discover
++.endif
++
++.fail
++EOF
++    chown ${GDM_USER}:${GDM_USER} ${PULSECONFIGDIR}/default.pa
++fi
+-- 
+2.17.0
+
