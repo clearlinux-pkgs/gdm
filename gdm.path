@@ -1,0 +1,6 @@
+[Unit]
+
+Description=Rise GDM service automatically if a graphic card exist
+
+[Path]
+PathExists=/dev/dri/card0

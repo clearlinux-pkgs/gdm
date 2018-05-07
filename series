@@ -1,6 +1,5 @@
 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
-0004-conflict-with-gdm-hw-accel.service.patch
 0005-pulseaudio-to-ignore-A2DP.patch
 gdm-rules-fix.patch

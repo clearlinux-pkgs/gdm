@@ -2,5 +2,5 @@ mkdir -p %{buildroot}/usr/libexec
 install -m 0755 ./gdm-disable-a2dp-pulseaudio.sh %{buildroot}/usr/libexec/gdm-disable-a2dp-pulseaudio.sh
 
 mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
-ln -s ../gdm-hw-accel.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
+ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm.path
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service

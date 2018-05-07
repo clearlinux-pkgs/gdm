@@ -4,11 +4,11 @@
 #
 Name     : gdm
 Version  : 3.28.1
-Release  : 44
+Release  : 45
 URL      : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.1.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
-Source2  : gdm-hw-accel.service
+Source2  : gdm.path
 Source3  : gdm.tmpfiles
 Summary  : Client Library for communicating with GDM daemon
 Group    : Development/Tools
@@ -53,9 +53,8 @@ BuildRequires : systemd-dev
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
-Patch4: 0004-conflict-with-gdm-hw-accel.service.patch
-Patch5: 0005-pulseaudio-to-ignore-A2DP.patch
-Patch6: gdm-rules-fix.patch
+Patch4: 0005-pulseaudio-to-ignore-A2DP.patch
+Patch5: gdm-rules-fix.patch
 
 %description
 GDM - GNOME Display Manager
@@ -133,14 +132,13 @@ locales components for the gdm package.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1525289728
+export SOURCE_DATE_EPOCH=1525718992
 %reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -161,20 +159,20 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1525289728
+export SOURCE_DATE_EPOCH=1525718992
 rm -rf %{buildroot}
 %make_install
 %find_lang gdm
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/gdm-disable-a2dp-pulseaudio.service
-install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/gdm-hw-accel.service
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/gdm.path
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 ## make_install_append content
 mkdir -p %{buildroot}/usr/libexec
 install -m 0755 ./gdm-disable-a2dp-pulseaudio.sh %{buildroot}/usr/libexec/gdm-disable-a2dp-pulseaudio.sh
 mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
-ln -s ../gdm-hw-accel.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
+ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm.path
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service
 ## make_install_append end
 
@@ -184,7 +182,7 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 %files autostart
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service
-/usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
+/usr/lib/systemd/system/multi-user.target.wants/gdm.path
 
 %files bin
 %defattr(-,root,root,-)
@@ -201,10 +199,10 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 %files config
 %defattr(-,root,root,-)
 %exclude /usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service
-%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm-hw-accel.service
+%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm.path
 %exclude /usr/lib/udev/rules.d/61-gdm.rules
 /usr/lib/systemd/system/gdm-disable-a2dp-pulseaudio.service
-/usr/lib/systemd/system/gdm-hw-accel.service
+/usr/lib/systemd/system/gdm.path
 /usr/lib/systemd/system/gdm.service
 /usr/lib/tmpfiles.d/gdm.conf
 
