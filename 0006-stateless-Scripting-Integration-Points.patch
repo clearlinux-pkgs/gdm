@@ -1,0 +1,103 @@
+From bd6eb21350d0c0ac6ab6b98ca8168ea5860a103f Mon Sep 17 00:00:00 2001
+From: Miguel Bernal Marin <miguel.bernal.marin@linux.intel.com>
+Date: Sun, 19 Aug 2018 00:37:41 -0500
+Subject: [PATCH 6/7] stateless: Scripting Integration Points
+
+Set Integrtion Points Scripts be stateless
+
+https://help.gnome.org/admin/gdm/stable/configuration.html.en
+---
+ data/Init.in        | 4 ++++
+ data/Makefile.am    | 4 ++--
+ data/PostLogin      | 4 ++++
+ data/PostSession.in | 4 ++++
+ data/PreSession.in  | 4 ++++
+ data/Xsession.in    | 1 +
+ 6 files changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/data/Init.in b/data/Init.in
+index ec6fd39..029e7cd 100644
+--- a/data/Init.in
++++ b/data/Init.in
+@@ -86,4 +86,8 @@ if [ "x$SETXKBMAP" != "x" ] ; then
+   fi
+ fi
+ 
++if [ -e /etc/gdm/Init/Default ] ; then
++  source /etc/gdm/Init/Default
++fi
++
+ exit 0
+diff --git a/data/Makefile.am b/data/Makefile.am
+index cbac879..4531e77 100644
+--- a/data/Makefile.am
++++ b/data/Makefile.am
+@@ -240,7 +240,7 @@ uninstall-hook:
+ 	$(DESTDIR)$(GDM_CUSTOM_CONF) \
+ 	$(DESTDIR)$(gdmconfdir)/Xsession \
+ 	$(DESTDIR)$(initdir)/Default \
+-	$(DESTDIR)$(postlogindir)/Default.sample \
++	$(DESTDIR)$(postlogindir)/Default \
+ 	$(DESTDIR)$(predir)/Default \
+ 	$(DESTDIR)$(postdir)/Default \
+ 	$(DESTDIR)$(sysconfdir)/dconf/db/gdm \
+@@ -277,7 +277,7 @@ endif
+ 		$(mkinstalldirs) $(DESTDIR)$(postlogindir); \
+ 		chmod 755 $(DESTDIR)$(postlogindir); \
+ 	fi
+-	$(INSTALL_SCRIPT) $(srcdir)/PostLogin $(DESTDIR)$(postlogindir)/Default.sample
++	$(INSTALL_SCRIPT) $(srcdir)/PostLogin $(DESTDIR)$(postlogindir)/Default
+ 
+ 	if test '!' -d $(DESTDIR)$(predir); then \
+ 		$(mkinstalldirs) $(DESTDIR)$(predir); \
+diff --git a/data/PostLogin b/data/PostLogin
+index efc6394..8684afe 100755
+--- a/data/PostLogin
++++ b/data/PostLogin
+@@ -6,3 +6,7 @@
+ # useful if you for example need to do some setup to create a home directory
+ # for the user or something like that.  $HOME, $LOGIN and such will all be
+ # set appropriately and this script is run as root.
++
++if [ -e /etc/gdm/PostLogin/Default ] ; then
++  source /etc/gdm/PostLogin/Default
++fi
+diff --git a/data/PostSession.in b/data/PostSession.in
+index c52d3c2..24e489e 100755
+--- a/data/PostSession.in
++++ b/data/PostSession.in
+@@ -1,3 +1,7 @@
+ #!/bin/sh
+ 
++if [ -e /etc/gdm/PostSession/Default ] ; then
++  source /etc/gdm/PostSession/Default
++fi
++
+ exit 0
+diff --git a/data/PreSession.in b/data/PreSession.in
+index cfabee7..155bde1 100755
+--- a/data/PreSession.in
++++ b/data/PreSession.in
+@@ -7,3 +7,7 @@
+ # Note that output goes into the .xsession-errors file for easy debugging
+ #
+ PATH="@X_PATH@:$PATH"
++
++if [ -e /etc/gdm/PreSession/Default ] ; then
++  source /etc/gdm/PreSession/Default
++fi
+diff --git a/data/Xsession.in b/data/Xsession.in
+index 9d79558..110d393 100755
+--- a/data/Xsession.in
++++ b/data/Xsession.in
+@@ -31,6 +31,7 @@ echo "$0: Beginning session setup..."
+ 
+ # First read /etc/profile and .profile
+ test -f /etc/profile && . /etc/profile
++test -f /usr/share/defaults/etc/profile && . /usr/share/defaults/etc/profile
+ test -f "$HOME/.profile" && . "$HOME/.profile"
+ # Second read /etc/xprofile and .xprofile for X specific setup
+ test -f /etc/xprofile && . /etc/xprofile
+-- 
+2.18.0
+

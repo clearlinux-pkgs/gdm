@@ -3,3 +3,5 @@
 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
 0005-pulseaudio-to-ignore-A2DP.patch
 #gdm-rules-fix.patch
+0006-stateless-Scripting-Integration-Points.patch
+0007-PostLogin-NM-to-rule-wlan-on-GUI.patch
