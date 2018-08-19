@@ -1,4 +1,5 @@
 3.28.3
+glibc-bin
 keyutils-dev
 pkgconfig(ice)
 pkgconfig(iso-codes)

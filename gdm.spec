@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.28.3
-Release  : 49
+Release  : 50
 URL      : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.3.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.3.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -22,10 +22,10 @@ Requires: gdm-locales
 BuildRequires : Linux-PAM-dev
 BuildRequires : automake
 BuildRequires : automake-dev
-BuildRequires : buildreq-gnome
 BuildRequires : dconf-dev
 BuildRequires : gettext
 BuildRequires : gettext-bin
+BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : intltool
 BuildRequires : itstool
@@ -57,6 +57,8 @@ Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
 Patch4: 0005-pulseaudio-to-ignore-A2DP.patch
+Patch5: 0006-stateless-Scripting-Integration-Points.patch
+Patch6: 0007-PostLogin-NM-to-rule-wlan-on-GUI.patch
 
 %description
 GDM - GNOME Display Manager
@@ -143,13 +145,15 @@ locales components for the gdm package.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1534175817
+export SOURCE_DATE_EPOCH=1534659419
 %reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -170,7 +174,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1534175817
+export SOURCE_DATE_EPOCH=1534659419
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/gdm
 cp COPYING %{buildroot}/usr/share/doc/gdm/COPYING
@@ -225,7 +229,7 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 /usr/share/dbus-1/system.d/gdm.conf
 /usr/share/dconf/profile/gdm
 /usr/share/gdm/Init/Default
-/usr/share/gdm/PostLogin/Default.sample
+/usr/share/gdm/PostLogin/Default
 /usr/share/gdm/PostSession/Default
 /usr/share/gdm/PreSession/Default
 /usr/share/gdm/Xsession
