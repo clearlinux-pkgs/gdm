@@ -1,7 +1,7 @@
-From 6982be353fa3b2b3f6d98a6e488688b8d7964cf4 Mon Sep 17 00:00:00 2001
+From 764e295a6413b1fe03a8fb0d18a02149dd86adad Mon Sep 17 00:00:00 2001
 From: Miguel Bernal Marin <miguel.bernal.marin@linux.intel.com>
 Date: Sun, 19 Aug 2018 00:48:13 -0500
-Subject: [PATCH 7/7] PostLogin: NM to rule wlan on GUI
+Subject: [PATCH] PostLogin: NM to rule wlan on GUI
 
 On Clear Linux systemd-networkd and NetworkManager wants to manage wlan,
 so let NM rules on wlan when gdm loging session is started.
@@ -10,14 +10,14 @@ With this you don't need to disable systemd-networkd
 
 resolve clearlinux/distribution#50
 ---
- data/PostLogin | 7 +++++++
- 1 file changed, 7 insertions(+)
+ data/PostLogin | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/data/PostLogin b/data/PostLogin
-index 8684afe..823f5db 100755
+index 8684afe..03d6b87 100755
 --- a/data/PostLogin
 +++ b/data/PostLogin
-@@ -7,6 +7,13 @@
+@@ -7,6 +7,17 @@
  # for the user or something like that.  $HOME, $LOGIN and such will all be
  # set appropriately and this script is run as root.
  
@@ -26,7 +26,11 @@ index 8684afe..823f5db 100755
 +
 +mkdir -p /run/systemd/network
 +ln -sf /dev/null /run/systemd/network/80-wlan.network
-+systemctl restart systemd-networkd
++
++if systemctl is-active --quiet systemd-networkd
++then
++  systemctl restart systemd-networkd
++fi
 +
  if [ -e /etc/gdm/PostLogin/Default ] ; then
    source /etc/gdm/PostLogin/Default
