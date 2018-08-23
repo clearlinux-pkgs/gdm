@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.28.4
-Release  : 52
+Release  : 53
 URL      : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.4.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.28/gdm-3.28.4.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -26,6 +26,7 @@ BuildRequires : buildreq-gnome
 BuildRequires : dconf-dev
 BuildRequires : gettext
 BuildRequires : gettext-bin
+BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : intltool
 BuildRequires : itstool
@@ -153,7 +154,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535041067
+export SOURCE_DATE_EPOCH=1535041221
 %reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -174,7 +175,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1535041067
+export SOURCE_DATE_EPOCH=1535041221
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/gdm
 cp COPYING %{buildroot}/usr/share/doc/gdm/COPYING
