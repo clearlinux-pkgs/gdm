@@ -4,4 +4,3 @@
 0005-pulseaudio-to-ignore-A2DP.patch
 #gdm-rules-fix.patch
 0006-stateless-Scripting-Integration-Points.patch
-0007-PostLogin-NM-to-rule-wlan-on-GUI.patch
