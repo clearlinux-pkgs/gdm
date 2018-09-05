@@ -11,4 +11,3 @@ Configure miss: Xinerama support on XFree86
 Configure miss: ply-boot-client
 Configure miss: Solaris auditing API
 Configure miss: audit_log_user_message in -laudit
-Configure miss: di_devperm_login in -ldevinfo
