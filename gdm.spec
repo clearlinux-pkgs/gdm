@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.30.2
-Release  : 59
+Release  : 60
 URL      : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.2.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.2.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -28,6 +28,7 @@ BuildRequires : buildreq-gnome
 BuildRequires : dconf-dev
 BuildRequires : gettext
 BuildRequires : gettext-bin
+BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : itstool
 BuildRequires : keyutils-dev
@@ -64,14 +65,6 @@ Patch5: 0006-stateless-Scripting-Integration-Points.patch
 GDM - GNOME Display Manager
 ===========================
 http://wiki.gnome.org/Projects/GDM/
-
-%package abi
-Summary: abi components for the gdm package.
-Group: Default
-
-%description abi
-abi components for the gdm package.
-
 
 %package autostart
 Summary: autostart components for the gdm package.
@@ -180,7 +173,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1541547814
+export SOURCE_DATE_EPOCH=1542735847
 %reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -201,7 +194,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1541547814
+export SOURCE_DATE_EPOCH=1542735847
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
@@ -222,11 +215,6 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 
 %files
 %defattr(-,root,root,-)
-
-%files abi
-%defattr(-,root,root,-)
-/usr/share/abi/libgdm.so.1.0.0.abi
-/usr/share/abi/libgdm.so.1.abi
 
 %files autostart
 %defattr(-,root,root,-)
