@@ -4,13 +4,13 @@
 #
 Name     : gdm
 Version  : 3.30.2
-Release  : 60
+Release  : 61
 URL      : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.2.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.2.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
 Source2  : gdm.path
 Source3  : gdm.tmpfiles
-Summary  : Client Library for communicating with GDM daemon
+Summary  : Display manager and login screen
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: gdm-bin = %{version}-%{release}
@@ -173,8 +173,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1542735847
-%reconfigure --disable-static --enable-wayland-support=yes \
+export SOURCE_DATE_EPOCH=1547221130
+%reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
 --with-initial-vt=7 \
@@ -194,7 +194,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1542735847
+export SOURCE_DATE_EPOCH=1547221130
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
