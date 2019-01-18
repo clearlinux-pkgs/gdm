@@ -1,6 +1,4 @@
 libX11.so.6
-libXau.so.6
-libXdmcp.so.6
 libaccountsservice.so.0
 libc.so.6
 libcanberra-gtk3.so.0
@@ -16,4 +14,3 @@ libkeyutils.so.1
 libpam.so.0
 libpthread.so.0
 libsystemd.so.0
-libxcb.so.1

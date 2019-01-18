@@ -6,8 +6,6 @@ Configure miss: ut_syslen field in the utmp structure
 Configure miss: if utmpx structure has ut_syslen field
 Configure miss: hosts_ctl in -lwrap
 Configure miss: whether to use TCP wrappers
-Configure miss: XineramaQueryExtension in -lXinerama
-Configure miss: Xinerama support on XFree86
 Configure miss: ply-boot-client
 Configure miss: Solaris auditing API
 Configure miss: audit_log_user_message in -laudit

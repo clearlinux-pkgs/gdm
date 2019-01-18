@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.30.2
-Release  : 61
+Release  : 62
 URL      : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.2.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.2.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -60,6 +60,7 @@ Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
 Patch4: 0005-pulseaudio-to-ignore-A2DP.patch
 Patch5: 0006-stateless-Scripting-Integration-Points.patch
+Patch6: diet.patch
 
 %description
 GDM - GNOME Display Manager
@@ -167,13 +168,18 @@ services components for the gdm package.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1547221130
+export SOURCE_DATE_EPOCH=1547826581
+export CFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -Os -fdata-sections -ffunction-sections -fno-semantic-interposition "
 %reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
@@ -194,7 +200,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1547221130
+export SOURCE_DATE_EPOCH=1547826581
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
