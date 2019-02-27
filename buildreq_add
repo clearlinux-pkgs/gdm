@@ -8,3 +8,4 @@ libXinerama-dev
 systemd-dev
 dconf-dev
 libXinerama-dev
+keyutils-dev

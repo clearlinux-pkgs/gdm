@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.30.3
-Release  : 65
+Release  : 66
 URL      : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.3.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.30/gdm-3.30.3.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -28,8 +28,10 @@ BuildRequires : buildreq-gnome
 BuildRequires : dconf-dev
 BuildRequires : gettext
 BuildRequires : gettext-bin
+BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : itstool
+BuildRequires : keyutils-dev
 BuildRequires : libXinerama-dev
 BuildRequires : libtool
 BuildRequires : libtool-dev
@@ -45,6 +47,7 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(gthread-2.0)
 BuildRequires : pkgconfig(gtk+-3.0)
+BuildRequires : pkgconfig(ice)
 BuildRequires : pkgconfig(iso-codes)
 BuildRequires : pkgconfig(libcanberra-gtk3)
 BuildRequires : pkgconfig(libsystemd)
@@ -173,7 +176,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1551235775
+export SOURCE_DATE_EPOCH=1551237886
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -201,7 +204,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1551235775
+export SOURCE_DATE_EPOCH=1551237886
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
