@@ -5,4 +5,4 @@
 #gdm-rules-fix.patch
 0006-stateless-Scripting-Integration-Points.patch
 diet.patch
-CVE-2019-3825.patch
+#CVE-2019-3825.patch
