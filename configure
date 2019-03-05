@@ -1,7 +1,6 @@
 --enable-wayland-support=no
 --enable-ipv6
 --disable-schemas-compile
---with-initial-vt=7
 --without-plymouth
 --with-pam-prefix=/usr/share
 --with-default-pam-config=lfs

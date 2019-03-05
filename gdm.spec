@@ -4,13 +4,13 @@
 #
 Name     : gdm
 Version  : 3.32.0
-Release  : 67
+Release  : 68
 URL      : https://download.gnome.org/sources/gdm/3.32/gdm-3.32.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.32/gdm-3.32.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
 Source2  : gdm.path
 Source3  : gdm.tmpfiles
-Summary  : Display manager and login screen
+Summary  : Client Library for communicating with GDM daemon
 Group    : Development/Tools
 License  : GPL-2.0
 Requires: gdm-bin = %{version}-%{release}
@@ -28,6 +28,7 @@ BuildRequires : buildreq-gnome
 BuildRequires : dconf-dev
 BuildRequires : gettext
 BuildRequires : gettext-bin
+BuildRequires : glibc-bin
 BuildRequires : gobject-introspection-dev
 BuildRequires : itstool
 BuildRequires : keyutils-dev
@@ -46,6 +47,7 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(gthread-2.0)
 BuildRequires : pkgconfig(gtk+-3.0)
+BuildRequires : pkgconfig(ice)
 BuildRequires : pkgconfig(iso-codes)
 BuildRequires : pkgconfig(libcanberra-gtk3)
 BuildRequires : pkgconfig(libsystemd)
@@ -109,7 +111,6 @@ Requires: gdm-lib = %{version}-%{release}
 Requires: gdm-bin = %{version}-%{release}
 Requires: gdm-data = %{version}-%{release}
 Provides: gdm-devel = %{version}-%{release}
-Requires: gdm = %{version}-%{release}
 
 %description dev
 dev components for the gdm package.
@@ -174,7 +175,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1552487689
+export SOURCE_DATE_EPOCH=1552606591
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -185,7 +186,6 @@ export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-
 %reconfigure --disable-static --enable-wayland-support=no \
 --enable-ipv6 \
 --disable-schemas-compile \
---with-initial-vt=7 \
 --without-plymouth \
 --with-pam-prefix=/usr/share \
 --with-default-pam-config=lfs \
@@ -202,7 +202,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1552487689
+export SOURCE_DATE_EPOCH=1552606591
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
@@ -216,9 +216,9 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/gdm.conf
 ## install_append content
 mkdir -p %{buildroot}/usr/libexec
 install -m 0755 ./gdm-disable-a2dp-pulseaudio.sh %{buildroot}/usr/libexec/gdm-disable-a2dp-pulseaudio.sh
-mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
-ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm.path
-ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service
+mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants/
+ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm.path
+ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
 ## install_append end
 
 %files
@@ -226,8 +226,8 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 
 %files autostart
 %defattr(-,root,root,-)
-/usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service
-/usr/lib/systemd/system/multi-user.target.wants/gdm.path
+/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
+/usr/lib/systemd/system/graphical.target.wants/gdm.path
 
 %files bin
 %defattr(-,root,root,-)
@@ -309,8 +309,8 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 
 %files services
 %defattr(-,root,root,-)
-%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm-disable-a2dp-pulseaudio.service
-%exclude /usr/lib/systemd/system/multi-user.target.wants/gdm.path
+%exclude /usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
+%exclude /usr/lib/systemd/system/graphical.target.wants/gdm.path
 /usr/lib/systemd/system/gdm-disable-a2dp-pulseaudio.service
 /usr/lib/systemd/system/gdm.path
 /usr/lib/systemd/system/gdm.service
