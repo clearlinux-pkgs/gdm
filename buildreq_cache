@@ -1,4 +1,5 @@
 3.32.0
+audit-dev
 glibc-bin
 keyutils-dev
 pkgconfig(ice)

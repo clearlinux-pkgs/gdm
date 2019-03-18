@@ -8,4 +8,3 @@ Configure miss: hosts_ctl in -lwrap
 Configure miss: whether to use TCP wrappers
 Configure miss: ply-boot-client
 Configure miss: Solaris auditing API
-Configure miss: audit_log_user_message in -laudit
