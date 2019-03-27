@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.32.0
-Release  : 71
+Release  : 72
 URL      : https://download.gnome.org/sources/gdm/3.32/gdm-3.32.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.32/gdm-3.32.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -181,7 +181,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553698077
+export SOURCE_DATE_EPOCH=1553698216
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -208,7 +208,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1553698077
+export SOURCE_DATE_EPOCH=1553698216
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
@@ -243,8 +243,8 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 
 %files config
 %defattr(-,root,root,-)
-%exclude /usr/lib/udev/rules.d/61-gdm.rules
 /usr/lib/tmpfiles.d/gdm.conf
+/usr/lib/udev/rules.d/61-gdm.rules
 
 %files data
 %defattr(-,root,root,-)
