@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.32.0
-Release  : 70
+Release  : 71
 URL      : https://download.gnome.org/sources/gdm/3.32/gdm-3.32.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.32/gdm-3.32.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -48,6 +48,7 @@ BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(gobject-2.0)
 BuildRequires : pkgconfig(gthread-2.0)
 BuildRequires : pkgconfig(gtk+-3.0)
+BuildRequires : pkgconfig(gudev-1.0)
 BuildRequires : pkgconfig(ice)
 BuildRequires : pkgconfig(iso-codes)
 BuildRequires : pkgconfig(libcanberra-gtk3)
@@ -56,12 +57,14 @@ BuildRequires : pkgconfig(x11)
 BuildRequires : pkgconfig(xau)
 BuildRequires : pkgconfig(xcb)
 BuildRequires : systemd-dev
+BuildRequires : xorg-server
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
 Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
 Patch4: 0005-pulseaudio-to-ignore-A2DP.patch
 Patch5: 0006-stateless-Scripting-Integration-Points.patch
 Patch6: diet.patch
+Patch7: gdm3.service-wait-for-drm-device-before-trying-to-start-i.patch
 
 %description
 GDM - GNOME Display Manager
@@ -171,13 +174,14 @@ services components for the gdm package.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553262048
+export SOURCE_DATE_EPOCH=1553698077
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -185,7 +189,7 @@ export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sect
 export FCFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -ffat-lto-objects -ffunction-sections -flto=4 -fno-semantic-interposition -fstack-protector-strong -mzero-caller-saved-regs=used "
-%reconfigure --disable-static --enable-wayland-support=no \
+%reconfigure --disable-static --enable-wayland-support=yes \
 --enable-ipv6 \
 --disable-schemas-compile \
 --without-plymouth \
@@ -204,7 +208,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1553262048
+export SOURCE_DATE_EPOCH=1553698077
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp COPYING %{buildroot}/usr/share/package-licenses/gdm/COPYING
@@ -302,6 +306,7 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 /usr/libexec/gdm-host-chooser
 /usr/libexec/gdm-session-worker
 /usr/libexec/gdm-simple-chooser
+/usr/libexec/gdm-wait-for-drm
 /usr/libexec/gdm-wayland-session
 /usr/libexec/gdm-x-session
 

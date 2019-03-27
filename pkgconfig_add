@@ -2,3 +2,4 @@
 # not get picked up automatically. One name per line, no whitespace.
 gobject-2.0
 accountsservice
+gudev-1.0

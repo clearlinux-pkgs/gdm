@@ -1,4 +1,4 @@
---enable-wayland-support=no
+--enable-wayland-support=yes
 --enable-ipv6
 --disable-schemas-compile
 --without-plymouth

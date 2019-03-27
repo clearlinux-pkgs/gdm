@@ -6,3 +6,4 @@
 0006-stateless-Scripting-Integration-Points.patch
 diet.patch
 #CVE-2019-3825.patch
+gdm3.service-wait-for-drm-device-before-trying-to-start-i.patch
