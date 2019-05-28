@@ -1,7 +1,7 @@
-From bd6eb21350d0c0ac6ab6b98ca8168ea5860a103f Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Miguel Bernal Marin <miguel.bernal.marin@linux.intel.com>
 Date: Sun, 19 Aug 2018 00:37:41 -0500
-Subject: [PATCH 6/7] stateless: Scripting Integration Points
+Subject: [PATCH] stateless: Scripting Integration Points
 
 Set Integrtion Points Scripts be stateless
 
@@ -29,10 +29,10 @@ index ec6fd39..029e7cd 100644
 +
  exit 0
 diff --git a/data/Makefile.am b/data/Makefile.am
-index cbac879..4531e77 100644
+index 210bf5d..63b9c41 100644
 --- a/data/Makefile.am
 +++ b/data/Makefile.am
-@@ -240,7 +240,7 @@ uninstall-hook:
+@@ -235,7 +235,7 @@ uninstall-hook:
  	$(DESTDIR)$(GDM_CUSTOM_CONF) \
  	$(DESTDIR)$(gdmconfdir)/Xsession \
  	$(DESTDIR)$(initdir)/Default \
@@ -41,7 +41,7 @@ index cbac879..4531e77 100644
  	$(DESTDIR)$(predir)/Default \
  	$(DESTDIR)$(postdir)/Default \
  	$(DESTDIR)$(sysconfdir)/dconf/db/gdm \
-@@ -277,7 +277,7 @@ endif
+@@ -272,7 +272,7 @@ endif
  		$(mkinstalldirs) $(DESTDIR)$(postlogindir); \
  		chmod 755 $(DESTDIR)$(postlogindir); \
  	fi
@@ -87,17 +87,17 @@ index cfabee7..155bde1 100755
 +  source /etc/gdm/PreSession/Default
 +fi
 diff --git a/data/Xsession.in b/data/Xsession.in
-index 9d79558..110d393 100755
+index 9d79558..8ac0d92 100755
 --- a/data/Xsession.in
 +++ b/data/Xsession.in
-@@ -31,6 +31,7 @@ echo "$0: Beginning session setup..."
+@@ -30,6 +30,7 @@ command="$@"
+ echo "$0: Beginning session setup..."
  
  # First read /etc/profile and .profile
- test -f /etc/profile && . /etc/profile
 +test -f /usr/share/defaults/etc/profile && . /usr/share/defaults/etc/profile
+ test -f /etc/profile && . /etc/profile
  test -f "$HOME/.profile" && . "$HOME/.profile"
  # Second read /etc/xprofile and .xprofile for X specific setup
- test -f /etc/xprofile && . /etc/xprofile
 -- 
-2.18.0
+https://clearlinux.org
 
