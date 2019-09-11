@@ -1,4 +1,7 @@
 Configure miss: libselinux
+Configure miss: stropts.h usability
+Configure miss: stropts.h presence
+Configure miss: stropts.h
 Configure miss: login_cap.h usability
 Configure miss: login_cap.h presence
 Configure miss: login_cap.h

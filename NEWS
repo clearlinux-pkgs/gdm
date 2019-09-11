@@ -1,4 +1,39 @@
 ==============
+Version 3.34.0
+==============
+- Translation updates
+
+===============
+Version 3.33.92
+===============
+- Fix typo in debug message
+- Revert vt changing fix, because it exposes logind bug and it wasn't quite right anyway
+- Ensure login screen gets reaped when user switching
+- Translation updates
+
+===============
+Version 3.33.90
+===============
+- Update for changes to gnome-settings-daemon
+- initial-setup permissions fix
+- allow users to set PATH from ~/.config/environmet
+- support systemd user sessions
+- misc warning fixes
+- leak fix in libgdm
+- vt changing fix
+- drop some deprecations
+- drop unused icons
+- Translation updates
+
+==============
+Version 3.33.4
+==============
+- Fix session search directories
+- Kill user sessions when stopping gdm
+- Add way for sessions to register when they successfully started
+- Translation updates
+
+==============
 Version 3.32.0
 ==============
 - No updates
