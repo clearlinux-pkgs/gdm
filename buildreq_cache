@@ -1,6 +1,3 @@
-3.34.1
+3.36.2
 audit-dev
-glibc-bin
-keyutils-dev
-pkgconfig(ice)
 pkgconfig(iso-codes)
