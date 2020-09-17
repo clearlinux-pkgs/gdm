@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.38.0
-Release  : 80
+Release  : 81
 URL      : https://download.gnome.org/sources/gdm/3.38/gdm-3.38.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.38/gdm-3.38.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -165,7 +165,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1600355347
+export SOURCE_DATE_EPOCH=1600359178
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -208,6 +208,7 @@ install -m 0755 ./gdm-disable-a2dp-pulseaudio.sh %{buildroot}/usr/libexec/gdm-di
 mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants/
 ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm.path
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
+mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 ## install_append end
 
 %files
@@ -221,9 +222,9 @@ ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/gdm
 /usr/bin/gdm-screenshot
 /usr/bin/gdmflexiserver
-/usr/sbin/gdm
 
 %files config
 %defattr(-,root,root,-)

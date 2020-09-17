@@ -4,3 +4,4 @@ install -m 0755 ./gdm-disable-a2dp-pulseaudio.sh %{buildroot}/usr/libexec/gdm-di
 mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants/
 ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm.path
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
+mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
