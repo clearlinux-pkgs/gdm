@@ -1,9 +1,8 @@
---enable-wayland-support=yes
---enable-ipv6
---disable-schemas-compile
---without-plymouth
---with-pam-prefix=/usr/share
---with-default-pam-config=lfs
---with-dbus-sys=/usr/share/dbus-1/system.d
---with-custom-conf=/etc/gdm/custom.conf
---enable-gdm-xsession
+-Dwayland-support=true
+-Dipv6=true
+-Dplymouth=disabled
+-Dpam-prefix=/usr/share
+-Ddefault-pam-config=lfs
+-Ddbus-sys==/usr/share/dbus-1/system.d
+-Dcustom-conf=/etc/gdm/custom.conf
+-Dgdm-xsession=true

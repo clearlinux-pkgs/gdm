@@ -1,3 +1,5 @@
-3.36.3
-audit-dev
-pkgconfig(iso-codes)
+3.38.0
+libcanberra-dev
+pkgconfig(audit)
+pkgconfig(check)
+pkgconfig(libcanberra-gtk3)

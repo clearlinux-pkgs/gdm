@@ -28,28 +28,6 @@ index ec6fd39..029e7cd 100644
 +fi
 +
  exit 0
-diff --git a/data/Makefile.am b/data/Makefile.am
-index 210bf5d..63b9c41 100644
---- a/data/Makefile.am
-+++ b/data/Makefile.am
-@@ -235,7 +235,7 @@ uninstall-hook:
- 	$(DESTDIR)$(GDM_CUSTOM_CONF) \
- 	$(DESTDIR)$(gdmconfdir)/Xsession \
- 	$(DESTDIR)$(initdir)/Default \
--	$(DESTDIR)$(postlogindir)/Default.sample \
-+	$(DESTDIR)$(postlogindir)/Default \
- 	$(DESTDIR)$(predir)/Default \
- 	$(DESTDIR)$(postdir)/Default \
- 	$(DESTDIR)$(sysconfdir)/dconf/db/gdm \
-@@ -272,7 +272,7 @@ endif
- 		$(mkinstalldirs) $(DESTDIR)$(postlogindir); \
- 		chmod 755 $(DESTDIR)$(postlogindir); \
- 	fi
--	$(INSTALL_SCRIPT) $(srcdir)/PostLogin $(DESTDIR)$(postlogindir)/Default.sample
-+	$(INSTALL_SCRIPT) $(srcdir)/PostLogin $(DESTDIR)$(postlogindir)/Default
- 
- 	if test '!' -d $(DESTDIR)$(predir); then \
- 		$(mkinstalldirs) $(DESTDIR)$(predir); \
 diff --git a/data/PostLogin b/data/PostLogin
 index efc6394..8684afe 100755
 --- a/data/PostLogin
