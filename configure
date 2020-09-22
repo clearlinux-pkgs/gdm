@@ -3,6 +3,6 @@
 -Dplymouth=disabled
 -Dpam-prefix=/usr/share
 -Ddefault-pam-config=lfs
--Ddbus-sys==/usr/share/dbus-1/system.d
+-Ddbus-sys=/usr/share/dbus-1/system.d
 -Dcustom-conf=/etc/gdm/custom.conf
 -Dgdm-xsession=true

@@ -1,7 +1,7 @@
-From 4d1ee7b8677370143422de1e55a3900d8170cd43 Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Ikey Doherty <michael.i.doherty@intel.com>
 Date: Tue, 2 May 2017 18:13:05 +0100
-Subject: [PATCH 3/3] pam: Allow gnome-initial-setup to operate in
+Subject: [PATCH] pam: Allow gnome-initial-setup to operate in
  gdm-launch-environment
 
 This change is required so that both GDM shell and GNOME Initial Setup
@@ -36,6 +36,3 @@ index 86f553c..9645389 100644
  -session optional       pam_systemd.so
  session  optional       pam_keyinit.so force revoke
  session  optional       pam_permit.so
--- 
-2.12.2
-

@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.38.0
-Release  : 81
+Release  : 84
 URL      : https://download.gnome.org/sources/gdm/3.38/gdm-3.38.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.38/gdm-3.38.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -40,9 +40,11 @@ BuildRequires : pkgconfig(libcanberra-gtk3)
 BuildRequires : systemd-dev
 BuildRequires : xorg-server
 Patch1: 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
-Patch2: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
-Patch3: 0005-pulseaudio-to-ignore-A2DP.patch
-Patch4: 0006-stateless-Scripting-Integration-Points.patch
+Patch2: 0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
+Patch3: 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
+Patch4: 0004-pulseaudio-to-ignore-A2DP.patch
+Patch5: 0005-stateless-Scripting-Integration-Points.patch
+Patch6: 0006-gdm3.service-wait-for-drm-device-before-trying-to-st.patch
 
 %description
 GDM - GNOME Display Manager
@@ -159,13 +161,15 @@ cd %{_builddir}/gdm-3.38.0
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1600359178
+export SOURCE_DATE_EPOCH=1600800461
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -179,7 +183,7 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --
 -Dplymouth=disabled \
 -Dpam-prefix=/usr/share \
 -Ddefault-pam-config=lfs \
--Ddbus-sys==/usr/share/dbus-1/system.d \
+-Ddbus-sys=/usr/share/dbus-1/system.d \
 -Dcustom-conf=/etc/gdm/custom.conf \
 -Dgdm-xsession=true  builddir
 ninja -v -C builddir
@@ -213,7 +217,6 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 
 %files
 %defattr(-,root,root,-)
-/usr/=/usr/share/dbus-1/system.d/gdm.conf
 
 %files autostart
 %defattr(-,root,root,-)
@@ -234,7 +237,13 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 %files data
 %defattr(-,root,root,-)
 /usr/lib64/girepository-1.0/Gdm-1.0.typelib
+/usr/share/dbus-1/system.d/gdm.conf
 /usr/share/dconf/profile/gdm
+/usr/share/gdm/Init/Default
+/usr/share/gdm/PostLogin/Default
+/usr/share/gdm/PostSession/Default
+/usr/share/gdm/PreSession/Default
+/usr/share/gdm/Xsession
 /usr/share/gdm/gdb-cmd
 /usr/share/gdm/gdm.schemas
 /usr/share/gdm/greeter-dconf-defaults
@@ -325,6 +334,7 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 /usr/libexec/gdm-host-chooser
 /usr/libexec/gdm-session-worker
 /usr/libexec/gdm-simple-chooser
+/usr/libexec/gdm-wait-for-drm
 /usr/libexec/gdm-wayland-session
 /usr/libexec/gdm-x-session
 

@@ -8,12 +8,12 @@ Set Integrtion Points Scripts be stateless
 https://help.gnome.org/admin/gdm/stable/configuration.html.en
 ---
  data/Init.in        | 4 ++++
- data/Makefile.am    | 4 ++--
  data/PostLogin      | 4 ++++
  data/PostSession.in | 4 ++++
  data/PreSession.in  | 4 ++++
  data/Xsession.in    | 1 +
- 6 files changed, 19 insertions(+), 2 deletions(-)
+ data/meson.build    | 2 +-
+ 6 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/data/Init.in b/data/Init.in
 index ec6fd39..029e7cd 100644
@@ -76,6 +76,16 @@ index 9d79558..8ac0d92 100755
  test -f /etc/profile && . /etc/profile
  test -f "$HOME/.profile" && . "$HOME/.profile"
  # Second read /etc/xprofile and .xprofile for X specific setup
--- 
-https://clearlinux.org
-
+diff --git a/data/meson.build b/data/meson.build
+index 05a2011..ec53cbe 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -18,7 +18,7 @@ foreach file : [ 'Init', 'PreSession', 'PostSession' ]
+ endforeach
+ 
+ install_data('PostLogin',
+-  rename: 'Default.sample',
++  rename: 'Default',
+   install_mode: 'rwxr-xr-x',
+   install_dir: gdmconfdir / 'PostLogin',
+ )

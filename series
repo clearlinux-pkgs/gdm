@@ -1,6 +1,6 @@
 0001-data-Integrate-with-the-Clear-Linux-PAM-configuratio.patch
-#0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
+0002-Use-stateless-gdmconfdir-for-integration-into-Clear-.patch
 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
-0005-pulseaudio-to-ignore-A2DP.patch
-0006-stateless-Scripting-Integration-Points.patch
-#gdm3.service-wait-for-drm-device-before-trying-to-start-i.patch
+0004-pulseaudio-to-ignore-A2DP.patch
+0005-stateless-Scripting-Integration-Points.patch
+0006-gdm3.service-wait-for-drm-device-before-trying-to-st.patch

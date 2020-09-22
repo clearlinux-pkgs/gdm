@@ -1,69 +1,58 @@
-From: =?utf-8?b?Ik1hcmNvIFRyZXZpc2FuIChUcmV2acOxbyki?= <mail@3v1n0.net>
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
 Date: Tue, 16 Oct 2018 20:59:23 +0200
-Subject: gdm3.service: wait for drm device before trying to start it
+Subject: [PATCH] gdm3.service: wait for drm device before trying to start it
+
+[pmccarty]: rebased for gdm 3.38.0
 
 Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/1794280
 Forwarded: not-needed
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
 ---
- configure.ac             |   1 +
- data/Makefile.am         |   1 +
  data/gdm.service.in      |   1 +
- utils/Makefile.am        |   9 +++++
- utils/gdm-wait-for-drm.c | 101 +++++++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 113 insertions(+)
+ data/meson.build         |   1 +
+ meson.build              |   1 +
+ utils/gdm-wait-for-drm.c | 101 +++++++++++++++++++++++++++++++++++++++
+ utils/meson.build        |  15 ++++++
+ 5 files changed, 119 insertions(+)
  create mode 100644 utils/gdm-wait-for-drm.c
 
-diff --git a/configure.ac b/configure.ac
-index 86ad66e..686921d 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -76,6 +76,7 @@ PKG_CHECK_MODULES(COMMON,
-         gobject-2.0 >= $GLIB_REQUIRED_VERSION
-         gio-2.0 >= $GLIB_REQUIRED_VERSION
-         gio-unix-2.0 >= $GLIB_REQUIRED_VERSION
-+        gudev-1.0
- )
- AC_SUBST(COMMON_CFLAGS)
- AC_SUBST(COMMON_LIBS)
-diff --git a/data/Makefile.am b/data/Makefile.am
-index 48b9d93..943dec3 100644
---- a/data/Makefile.am
-+++ b/data/Makefile.am
-@@ -207,6 +207,7 @@ systemdsystemunit =
- gdm.service: $(srcdir)/gdm.service.in
- 	$(AM_V_GEN)sed \
- 		-e 's,[@]sbindir[@],$(sbindir),g' \
-+		-e 's,[@]libexecdir[@],$(libexecdir),g' \
- 		-e 's,[@]GDM_INITIAL_VT[@],$(GDM_INITIAL_VT),g' \
- 		-e 's,[@]LANG_CONFIG_FILE[@],$(LANG_CONFIG_FILE),g' \
- 		-e 's,[@]PLYMOUTH_QUIT_SERVICE[@],$(PLYMOUTH_QUIT_SERVICE),g' \
-diff --git a/utils/Makefile.am b/utils/Makefile.am
-index babe890..3eb43c3 100644
---- a/utils/Makefile.am
-+++ b/utils/Makefile.am
-@@ -35,6 +35,7 @@ bin_PROGRAMS = \
+diff --git a/data/gdm.service.in b/data/gdm.service.in
+index 17e8a8d..9ca3d92 100644
+--- a/data/gdm.service.in
++++ b/data/gdm.service.in
+@@ -28,6 +28,7 @@ BusName=org.gnome.DisplayManager
+ EnvironmentFile=-${LANG_CONFIG_FILE}
+ ExecReload=/bin/kill -SIGHUP $MAINPID
+ KeyringMode=shared
++ExecStartPre=${libexecdir}/gdm-wait-for-drm
  
- libexec_PROGRAMS = \
- 	gdm-disable-wayland	\
-+	gdm-wait-for-drm	\
- 	$(NULL)
- 
- gdmflexiserver_LDADD =		\
-@@ -63,6 +64,14 @@ gdm_disable_wayland_SOURCES =	\
- 	gdm-disable-wayland.c	\
- 	$(NULL)
- 
-+gdm_wait_for_drm_LDADD =	\
-+	$(COMMON_LIBS)		\
-+	$(NULL)
-+
-+gdm_wait_for_drm_SOURCES =	\
-+	gdm-wait-for-drm.c	\
-+	$(NULL)
-+
- CLEANFILES = 			\
- 	$(NULL)
- 
+ [Install]
+ Alias=display-manager.service
+diff --git a/data/meson.build b/data/meson.build
+index ec53cbe..b3fa792 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -162,6 +162,7 @@ gdm_rules = configure_file(
+ # DBus service files
+ service_config = configuration_data()
+ service_config.set('sbindir', gdm_prefix / get_option('sbindir'))
++service_config.set('libexecdir', gdm_prefix / get_option('libexecdir'))
+ service_config.set('GDM_INITIAL_VT', get_option('initial-vt'))
+ service_config.set('LANG_CONFIG_FILE', lang_config_file)
+ if plymouth_dep.found()
+diff --git a/meson.build b/meson.build
+index f48f206..3bac744 100644
+--- a/meson.build
++++ b/meson.build
+@@ -46,6 +46,7 @@ glib_dep = dependency('glib-2.0', version: '>=' + glib_min_version)
+ gobject_dep = dependency('gobject-2.0', version: '>=' + glib_min_version)
+ gio_dep = dependency('gio-2.0', version: '>=' + glib_min_version)
+ gio_unix_dep = dependency('gio-unix-2.0', version: '>=' + glib_min_version)
++gudev_dep = dependency('gudev-1.0')
+ gtk_dep = dependency('gtk+-3.0', version: '>= 2.91.1')
+ libcanberra_gtk_dep = dependency('libcanberra-gtk3', version: '>= 0.4')
+ accountsservice_dep = dependency('accountsservice', version: '>= 0.6.35')
 diff --git a/utils/gdm-wait-for-drm.c b/utils/gdm-wait-for-drm.c
 new file mode 100644
 index 0000000..aeffb3c
@@ -171,13 +160,26 @@ index 0000000..aeffb3c
 +
 +        return EXIT_SUCCESS;
 +}
---- gdm-3.32.0/data/gdm.service.in~	2019-03-05 15:10:56.000000000 +0000
-+++ gdm-3.32.0/data/gdm.service.in	2019-03-27 14:43:42.077832503 +0000
-@@ -30,6 +30,7 @@
- EnvironmentFile=-@LANG_CONFIG_FILE@
- ExecReload=/bin/kill -SIGHUP $MAINPID
- KeyringMode=shared
-+ExecStartPre=@libexecdir@/gdm-wait-for-drm
+diff --git a/utils/meson.build b/utils/meson.build
+index f719c49..c894f1e 100644
+--- a/utils/meson.build
++++ b/utils/meson.build
+@@ -39,3 +39,18 @@ gdm_disable_wayland = executable('gdm-disable-wayland',
+   install_dir: get_option('libexecdir'),
+ )
  
- [Install]
- Alias=display-manager.service
++# gdm-wait-for-drm
++gdm_wait_for_drm_deps = [
++  gobject_dep,
++  gio_dep,
++  gio_unix_dep,
++  gudev_dep,
++]
++
++gdm_wait_for_drm = executable('gdm-wait-for-drm',
++  'gdm-wait-for-drm.c',
++  dependencies: gdm_wait_for_drm_deps,
++  include_directories: config_h_dir,
++  install: true,
++  install_dir: get_option('libexecdir'),
++)
