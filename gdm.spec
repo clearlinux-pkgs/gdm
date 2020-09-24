@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 3.38.0
-Release  : 84
+Release  : 85
 URL      : https://download.gnome.org/sources/gdm/3.38/gdm-3.38.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/3.38/gdm-3.38.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
