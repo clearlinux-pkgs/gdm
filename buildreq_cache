@@ -1,5 +1,0 @@
-3.38.0
-libcanberra-dev
-pkgconfig(audit)
-pkgconfig(check)
-pkgconfig(libcanberra-gtk3)

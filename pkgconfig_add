@@ -1,5 +1,8 @@
 # This file contains additional pkgconfig build requirements that did
 # not get picked up automatically. One name per line, no whitespace.
-gobject-2.0
 accountsservice
+audit
+check
+gobject-2.0
 gudev-1.0
+libcanberra-gtk3
