@@ -1,5 +1,6 @@
 libX11.so.6
 libaccountsservice.so.0
+libaudit.so.1
 libc.so.6
 libcanberra-gtk3.so.0
 libcanberra.so.0

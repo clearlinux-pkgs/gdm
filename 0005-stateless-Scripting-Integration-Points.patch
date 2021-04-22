@@ -71,11 +71,11 @@ index 9d79558..8ac0d92 100755
 @@ -30,6 +30,7 @@ command="$@"
  echo "$0: Beginning session setup..."
  
- # First read /etc/profile and .profile
+ # First read /etc/profile (resp. /usr/etc/profile) and .profile
 +test -f /usr/share/defaults/etc/profile && . /usr/share/defaults/etc/profile
- test -f /etc/profile && . /etc/profile
- test -f "$HOME/.profile" && . "$HOME/.profile"
- # Second read /etc/xprofile and .xprofile for X specific setup
+ if [ -f /etc/profile ]; then
+   . /etc/profile
+ elif [ -f /usr/etc/profile ]; then
 diff --git a/data/meson.build b/data/meson.build
 index 05a2011..ec53cbe 100644
 --- a/data/meson.build
