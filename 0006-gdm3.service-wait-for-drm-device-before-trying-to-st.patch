@@ -33,7 +33,7 @@ diff --git a/data/meson.build b/data/meson.build
 index ec53cbe..b3fa792 100644
 --- a/data/meson.build
 +++ b/data/meson.build
-@@ -162,6 +162,7 @@ gdm_rules = configure_file(
+@@ -156,6 +156,7 @@ gdm_rules = configure_file(
  # DBus service files
  service_config = configuration_data()
  service_config.set('sbindir', gdm_prefix / get_option('sbindir'))
@@ -45,7 +45,7 @@ diff --git a/meson.build b/meson.build
 index f48f206..3bac744 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -46,6 +46,7 @@ glib_dep = dependency('glib-2.0', version: '>=' + glib_min_version)
+@@ -45,6 +45,7 @@ glib_dep = dependency('glib-2.0', version: '>=' + glib_min_version)
  gobject_dep = dependency('gobject-2.0', version: '>=' + glib_min_version)
  gio_dep = dependency('gio-2.0', version: '>=' + glib_min_version)
  gio_unix_dep = dependency('gio-unix-2.0', version: '>=' + glib_min_version)
@@ -164,7 +164,7 @@ diff --git a/utils/meson.build b/utils/meson.build
 index f719c49..c894f1e 100644
 --- a/utils/meson.build
 +++ b/utils/meson.build
-@@ -39,3 +39,18 @@ gdm_disable_wayland = executable('gdm-disable-wayland',
+@@ -39,3 +39,18 @@ gdm_runtime_config = executable('gdm-runtime-config',
    install_dir: get_option('libexecdir'),
  )
  

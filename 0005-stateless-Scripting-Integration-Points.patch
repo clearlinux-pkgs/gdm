@@ -19,7 +19,7 @@ diff --git a/data/Init.in b/data/Init.in
 index ec6fd39..029e7cd 100644
 --- a/data/Init.in
 +++ b/data/Init.in
-@@ -86,4 +86,8 @@ if [ "x$SETXKBMAP" != "x" ] ; then
+@@ -94,4 +94,8 @@ if [ "x$SETXKBMAP" != "x" ] ; then
    fi
  fi
  
