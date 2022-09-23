@@ -4,7 +4,7 @@
 #
 Name     : gdm
 Version  : 43.0
-Release  : 96
+Release  : 97
 URL      : https://download.gnome.org/sources/gdm/43/gdm-43.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/43/gdm-43.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
