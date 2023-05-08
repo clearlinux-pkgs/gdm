@@ -4,10 +4,10 @@
 # Using build pattern: meson
 #
 Name     : gdm
-Version  : 44.0
-Release  : 101
-URL      : https://download.gnome.org/sources/gdm/44/gdm-44.0.tar.xz
-Source0  : https://download.gnome.org/sources/gdm/44/gdm-44.0.tar.xz
+Version  : 44.1
+Release  : 102
+URL      : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
+Source0  : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
 Source2  : gdm.path
 Source3  : gdm.tmpfiles
@@ -154,36 +154,40 @@ locales components for the gdm package.
 %package services
 Summary: services components for the gdm package.
 Group: Systemd services
+Requires: systemd
 
 %description services
 services components for the gdm package.
 
 
 %prep
-%setup -q -n gdm-44.0
-cd %{_builddir}/gdm-44.0
+%setup -q -n gdm-44.1
+cd %{_builddir}/gdm-44.1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+pushd ..
+cp -a gdm-44.1 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680023757
+export SOURCE_DATE_EPOCH=1683575994
 unset LD_AS_NEEDED
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -Os -fdata-sections -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -ffunction-sections -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dwayland-support=true \
 -Dipv6=true \
 -Dplymouth=disabled \
@@ -193,6 +197,15 @@ CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" meson --libdir=lib64 --
 -Dcustom-conf=/etc/gdm/custom.conf \
 -Dgdm-xsession=true  builddir
 ninja -v -C builddir
+CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 -O3" CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 " LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3" meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dwayland-support=true \
+-Dipv6=true \
+-Dplymouth=disabled \
+-Dpam-prefix=/usr/share \
+-Ddefault-pam-config=lfs \
+-Ddbus-sys=/usr/share/dbus-1/system.d \
+-Dcustom-conf=/etc/gdm/custom.conf \
+-Dgdm-xsession=true  builddiravx2
+ninja -v -C builddiravx2
 
 %check
 export LANG=C.UTF-8
@@ -204,6 +217,7 @@ meson test -C builddir --print-errorlogs
 %install
 mkdir -p %{buildroot}/usr/share/package-licenses/gdm
 cp %{_builddir}/gdm-%{version}/COPYING %{buildroot}/usr/share/package-licenses/gdm/4cc77b90af91e615a64ae04893fdffa7939db84c || :
+DESTDIR=%{buildroot}-v3 ninja -C builddiravx2 install
 DESTDIR=%{buildroot} ninja -C builddir install
 %find_lang gdm
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -220,6 +234,7 @@ ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
 mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -231,6 +246,9 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/gdm-screenshot
+/V3/usr/bin/gdmflexiserver
+/V3/usr/sbin/gdm
 /usr/bin/gdm
 /usr/bin/gdm-screenshot
 /usr/bin/gdmflexiserver
@@ -268,6 +286,7 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 
 %files dev
 %defattr(-,root,root,-)
+/V3/usr/lib64/libgdm.so
 /usr/include/gdm/gdm-client-glue.h
 /usr/include/gdm/gdm-client.h
 /usr/include/gdm/gdm-pam-extensions.h
@@ -336,12 +355,22 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/libgdm.so.1
+/V3/usr/lib64/libgdm.so.1.0.0
+/V3/usr/lib64/security/pam_gdm.so
 /usr/lib64/libgdm.so.1
 /usr/lib64/libgdm.so.1.0.0
 /usr/lib64/security/pam_gdm.so
 
 %files libexec
 %defattr(-,root,root,-)
+/V3/usr/libexec/gdm-host-chooser
+/V3/usr/libexec/gdm-runtime-config
+/V3/usr/libexec/gdm-session-worker
+/V3/usr/libexec/gdm-simple-chooser
+/V3/usr/libexec/gdm-wait-for-drm
+/V3/usr/libexec/gdm-wayland-session
+/V3/usr/libexec/gdm-x-session
 /usr/libexec/gdm-disable-a2dp-pulseaudio.sh
 /usr/libexec/gdm-host-chooser
 /usr/libexec/gdm-runtime-config
