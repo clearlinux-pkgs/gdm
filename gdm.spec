@@ -5,7 +5,7 @@
 #
 Name     : gdm
 Version  : 44.1
-Release  : 102
+Release  : 103
 URL      : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -178,7 +178,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683575994
+export SOURCE_DATE_EPOCH=1683641460
 unset LD_AS_NEEDED
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -233,6 +233,8 @@ mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants/
 ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm.path
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
 mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
+mkdir -p %{buildroot}/V3/usr/bin/
+mv %{buildroot}-v3/usr/sbin/* %{buildroot}/V3/usr/bin/ || :
 ## install_append end
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
@@ -246,9 +248,9 @@ mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/gdm
 /V3/usr/bin/gdm-screenshot
 /V3/usr/bin/gdmflexiserver
-/V3/usr/sbin/gdm
 /usr/bin/gdm
 /usr/bin/gdm-screenshot
 /usr/bin/gdmflexiserver

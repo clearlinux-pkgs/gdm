@@ -5,3 +5,5 @@ mkdir -p %{buildroot}/usr/lib/systemd/system/graphical.target.wants/
 ln -s ../gdm.path %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm.path
 ln -s ../gdm-disable-a2dp-pulseaudio.service %{buildroot}/usr/lib/systemd/system/graphical.target.wants/gdm-disable-a2dp-pulseaudio.service
 mv %{buildroot}/usr/sbin/* %{buildroot}/usr/bin/
+mkdir -p %{buildroot}/V3/usr/bin/
+mv %{buildroot}-v3/usr/sbin/* %{buildroot}/V3/usr/bin/ || :
