@@ -5,7 +5,7 @@
 #
 Name     : gdm
 Version  : 44.1
-Release  : 103
+Release  : 104
 URL      : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -178,7 +178,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683641460
+export SOURCE_DATE_EPOCH=1685507409
 unset LD_AS_NEEDED
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -288,7 +288,6 @@ mv %{buildroot}-v3/usr/sbin/* %{buildroot}/V3/usr/bin/ || :
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libgdm.so
 /usr/include/gdm/gdm-client-glue.h
 /usr/include/gdm/gdm-client.h
 /usr/include/gdm/gdm-pam-extensions.h
@@ -357,7 +356,6 @@ mv %{buildroot}-v3/usr/sbin/* %{buildroot}/V3/usr/bin/ || :
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libgdm.so.1
 /V3/usr/lib64/libgdm.so.1.0.0
 /V3/usr/lib64/security/pam_gdm.so
 /usr/lib64/libgdm.so.1
