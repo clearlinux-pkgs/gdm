@@ -5,7 +5,7 @@
 #
 Name     : gdm
 Version  : 44.1
-Release  : 105
+Release  : 106
 URL      : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -22,6 +22,7 @@ Requires: gdm-libexec = %{version}-%{release}
 Requires: gdm-license = %{version}-%{release}
 Requires: gdm-locales = %{version}-%{release}
 Requires: gdm-services = %{version}-%{release}
+Requires: xkeyboard-config
 BuildRequires : Linux-PAM-dev
 BuildRequires : buildreq-gnome
 BuildRequires : buildreq-meson
@@ -72,6 +73,7 @@ Requires: gdm-libexec = %{version}-%{release}
 Requires: gdm-config = %{version}-%{release}
 Requires: gdm-license = %{version}-%{release}
 Requires: gdm-services = %{version}-%{release}
+Requires: xkeyboard-config
 
 %description bin
 bin components for the gdm package.
@@ -178,7 +180,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1694472239
+export SOURCE_DATE_EPOCH=1694540486
 unset LD_AS_NEEDED
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
