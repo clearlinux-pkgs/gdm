@@ -4,10 +4,10 @@
 # Using build pattern: meson
 #
 Name     : gdm
-Version  : 44.1
-Release  : 106
-URL      : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
-Source0  : https://download.gnome.org/sources/gdm/44/gdm-44.1.tar.xz
+Version  : 45.0.1
+Release  : 107
+URL      : https://download.gnome.org/sources/gdm/45/gdm-45.0.1.tar.xz
+Source0  : https://download.gnome.org/sources/gdm/45/gdm-45.0.1.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
 Source2  : gdm.path
 Source3  : gdm.tmpfiles
@@ -163,8 +163,8 @@ services components for the gdm package.
 
 
 %prep
-%setup -q -n gdm-44.1
-cd %{_builddir}/gdm-44.1
+%setup -q -n gdm-45.0.1
+cd %{_builddir}/gdm-45.0.1
 %patch -P 1 -p1
 %patch -P 2 -p1
 %patch -P 3 -p1
@@ -172,7 +172,7 @@ cd %{_builddir}/gdm-44.1
 %patch -P 5 -p1
 %patch -P 6 -p1
 pushd ..
-cp -a gdm-44.1 buildavx2
+cp -a gdm-45.0.1 buildavx2
 popd
 
 %build
@@ -180,7 +180,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1694540486
+export SOURCE_DATE_EPOCH=1695678422
 unset LD_AS_NEEDED
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
