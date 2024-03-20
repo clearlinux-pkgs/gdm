@@ -3,4 +3,4 @@
 0003-pam-Allow-gnome-initial-setup-to-operate-in-gdm-laun.patch
 0004-pulseaudio-to-ignore-A2DP.patch
 0005-stateless-Scripting-Integration-Points.patch
-0006-gdm3.service-wait-for-drm-device-before-trying-to-st.patch
+#0006-gdm3.service-wait-for-drm-device-before-trying-to-st.patch
