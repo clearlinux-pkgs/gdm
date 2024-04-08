@@ -6,3 +6,4 @@
 -Ddbus-sys=/usr/share/dbus-1/system.d
 -Dcustom-conf=/etc/gdm/custom.conf
 -Dgdm-xsession=true
+-Dxdmcp=enabled
