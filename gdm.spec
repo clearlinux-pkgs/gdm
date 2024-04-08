@@ -7,7 +7,7 @@
 #
 Name     : gdm
 Version  : 46.0
-Release  : 109
+Release  : 110
 URL      : https://download.gnome.org/sources/gdm/46/gdm-46.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/46/gdm-46.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
@@ -182,7 +182,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1712611988
+export SOURCE_DATE_EPOCH=1712613457
 unset LD_AS_NEEDED
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -206,8 +206,7 @@ meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dwayland-support=true \
 -Ddefault-pam-config=lfs \
 -Ddbus-sys=/usr/share/dbus-1/system.d \
 -Dcustom-conf=/etc/gdm/custom.conf \
--Dgdm-xsession=true \
--Dxdmcp=enabled  builddir
+-Dgdm-xsession=true  builddir
 ninja -v -C builddir
 GOAMD64=v3
 CFLAGS="$CFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 " CXXFLAGS="$CXXFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 " LDFLAGS="$LDFLAGS -march=x86-64-v3 " meson --libdir=lib64 --prefix=/usr --buildtype=plain -Dwayland-support=true \
@@ -217,8 +216,7 @@ CFLAGS="$CFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 " CXXFLAGS="$CXXFLAGS -march=x
 -Ddefault-pam-config=lfs \
 -Ddbus-sys=/usr/share/dbus-1/system.d \
 -Dcustom-conf=/etc/gdm/custom.conf \
--Dgdm-xsession=true \
--Dxdmcp=enabled  builddiravx2
+-Dgdm-xsession=true  builddiravx2
 ninja -v -C builddiravx2
 
 %check
