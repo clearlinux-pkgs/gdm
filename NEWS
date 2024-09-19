@@ -1,9 +1,24 @@
-============
-Version 46.2
-============
-- Block suspend when remote displays are active
-- Support S0ix suspend when deciding if nvidia should use wayland
-- Misc fixes
+==========
+Version 47
+==========
+- Fix X11 support
+
+=============
+Version 47.rc
+=============
+- Make X11 support optional
+- Support logind secure attention key
+- Drop gdm-screenshot
+- Don't hardcode g-r-d in dbus policy
+- Fix numeric local address resolution
+- Docs updates
+- Translation updates
+
+================
+Version 47.alpha
+================
+- Support for gnome-remote-desktop persistent sessions
+- Misc changes
 - Translation updates
 
 ============
