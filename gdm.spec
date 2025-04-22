@@ -7,7 +7,7 @@
 #
 Name     : gdm
 Version  : 48.0
-Release  : 113
+Release  : 114
 URL      : https://download.gnome.org/sources/gdm/48/gdm-48.0.tar.xz
 Source0  : https://download.gnome.org/sources/gdm/48/gdm-48.0.tar.xz
 Source1  : gdm-disable-a2dp-pulseaudio.service
